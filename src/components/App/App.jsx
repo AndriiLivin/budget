@@ -10,13 +10,18 @@ import Balance from "../Balance/Balance";
 // меняем ее на классовую компоненту
 // class App extends React.Component {
 
+// let id = 0;
+
 class App extends Component {
   // у классовой компоненты можно использовать наследование от родительской Component
   // для этого используется метод constructor() и super()
   constructor() {
+    console.log("constructor");
     super();
+    console.log("super");
     this.state = {
-      balance: 100,
+      balance: 0,
+      transActions: [],
     };
     // стандартный метод привязки функции к объекту создания
     this.onIncrease = this.onIncrease.bind(this);
@@ -34,9 +39,22 @@ class App extends Component {
   //   // отправляет аналитику
   //   // используется очень редко
   componentWillUnmount() {
-      console.log("componentWillUnmount");
-      // clearInterval(this.timerID);
-    }
+    console.log("componentWillUnmount");
+    // clearInterval(this.timerID);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // nextProps, nextState сюда передаются новые значения
+    //  и метод принимает решение о небходимости перерисовки
+    console.log(this.state);
+    // debugger;
+    console.log("shouldComponentUpdate");
+    // компонент рендерится т.к. он изменился
+    // return true;
+
+    // компонент не не требует перерисовки
+    return nextState.balance < 120;
+  }
 
   // // типа увеличивает время на секунду
   //   tick() {
@@ -46,16 +64,36 @@ class App extends Component {
   //   }
 
   onIncrease() {
-    this.setState({ balance: this.state.balance + 10 });
+    this.setState((state) => ({
+      balance: state.balance + 1,
+      transActions: [
+        {
+          lable: "increase",
+          value: 1,
+          id: state.transActions.length,
+        },
+        ...state.transActions,
+      ],
+    }));
   }
 
   onDecrease = () => {
-    this.setState({ balance: this.state.balance - 1 });
+    this.setState((state) => ({
+      balance: state.balance - 1,
+      transActions: [
+        {
+          lable: "decrease",
+          value: -1,
+          id: state.transActions.length,
+        },
+        ...state.transActions,
+      ],
+    }));
   };
 
   // у классовой компоненты единственный метод render
   render() {
-   
+    console.log("render");
 
     return (
       <div>
@@ -67,10 +105,23 @@ class App extends Component {
         </Balance> */}
         <br></br>
         <br></br>
-        <button onClick={this.onIncrease}>Прибавить 10 гривень</button>
+        <button onClick={this.onIncrease}>Прибавить 1 гривеню</button>
         <br></br>
         <br></br>
         <button onClick={this.onDecrease}>Отнять 1 гривеню</button>
+        <hr></hr>
+        {this.state.transActions.length === 0
+          ? " Еще нет транзакций!"
+          : JSON.stringify(this.state.transActions)}
+
+        {this.state.transActions.map((transaction) => (
+          <div key={transaction.id}>
+            Lable : {transaction.lable}
+            <p> Value : {transaction.value}</p>
+            <p> Value : {transaction.id}</p>
+            <br></br>
+          </div>
+        ))}
       </div>
     );
   }

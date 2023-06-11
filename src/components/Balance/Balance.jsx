@@ -6,7 +6,12 @@ const Balance = ({ balance, children }) => {
   return (
     <div>
       --{children}
-      {balance}--
+      {balance}
+      {balance === 0 ?"Баланс нулевой": balance <0 ?"Зашли в минус":' Мы в плюсах!'}--
+      <br></br>
+      <br></br>
+      {/* аналогичная запись */}
+      {!balance && "Есть первая сотня"}--
     </div>
   );
 };
