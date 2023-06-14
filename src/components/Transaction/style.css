@@ -1,0 +1,7 @@
+.transaction {
+  background: blue;
+  border: 2px solid blueviolet;
+  border-radius: 3px;
+  padding: 5px;
+  margin-bottom: 3px;
+}

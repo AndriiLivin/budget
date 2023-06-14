@@ -1,20 +1,30 @@
-const Transaction = () => (
-  <div>
-    {this.state.transActions.length === 0
-      ? " Еще нет транзакций!"
-      : JSON.stringify(this.state.transActions)}
+import PropTypes from "prop-types";
+import "./style.css";
 
-    {this.state.transActions.map((transaction) => (
-      // т.к. это просто элемент списка,то key не требуется
-      // <div key={transaction.id}>
-      <div>
-        Lable : {transaction.lable}
-        <p> Value : {transaction.value}</p>
-        <p> Value : {transaction.id}</p>
-        <br></br>
-      </div>
-    ))}
+const Transaction = ({ transaction }) => (
+  // т.к. это просто элемент списка,то key не требуется
+  // <div key={transaction.id}>
+  <div className="transaction">
+    {/* Lable : {props.transaction.lable}
+    <p> Value : {props.transaction.value}</p> */}
+    Lable : {transaction.lable}
+    <p> Value : {transaction.value}</p>
+    <br></br>
   </div>
 );
+
+Transaction.propTypes = {
+  transaction: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string,
+  }),
+};
+
+Transaction.defaultProps = {
+  transaction: {
+    label: "",
+    value: "",
+  },
+};
 
 export default Transaction;
