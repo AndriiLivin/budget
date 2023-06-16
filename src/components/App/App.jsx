@@ -6,6 +6,8 @@ import Balance from "../Balance/Balance";
 import Transactions from "../Transactions/Transactions";
 import Form from "../Form/form";
 
+import { WrapperApp, GlobalStyle } from "./stylesApp";
+
 // функциональная компонента т.к. есть
 // const App = function () {
 // она же stateFull компонента
@@ -76,7 +78,7 @@ class App extends Component {
       transactions: [
         {
           lable: "increase",
-          value: "1",
+          value: 1,
           id: state.transactions.length,
         },
         ...state.transactions,
@@ -90,7 +92,7 @@ class App extends Component {
       transactions: [
         {
           lable: "decrease",
-          value: "-1",
+          value: -1,
           id: state.transactions.length,
         },
         ...state.transactions,
@@ -104,7 +106,7 @@ class App extends Component {
       transactions: [
         {
           lable: "change",
-          value,
+          value: +value,
           id: state.transactions.length,
         },
         ...state.transactions,
@@ -118,7 +120,9 @@ class App extends Component {
 
     return (
       // наиболее популярная форма обертки
-      <>
+      <WrapperApp>
+        {/* применяем компонент с глобальными стилями */}
+        <GlobalStyle/>
         {/* // React.Fragment используется для избавления от лишних оберток div в
         компонентах */}
         <React.Fragment>
@@ -150,7 +154,7 @@ class App extends Component {
             </div>
           </Fragment>
         </React.Fragment>
-      </>
+      </WrapperApp>
     );
   }
 }
